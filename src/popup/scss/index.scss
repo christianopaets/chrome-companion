@@ -1,0 +1,10 @@
+@forward "reset";
+@import "primeicons/primeicons.css";
+@import 'primeflex/primeflex.css';
+
+body {
+  font-family: var(--font-family);
+  margin: 0;
+  width: 500px;
+  height: 600px;
+}

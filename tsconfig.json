@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    /* Base options */
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "target": "ES2022",
+    "verbatimModuleSyntax": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
+    "moduleResolution": "node",
+    "module": "ESNext",
+    "noEmit": true,
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "types": [
+      "@typescript/lib-dom",
+      "bun-types",
+      "vue",
+      "chrome-types"
+    ]
+  },
+  "include": [
+    "src/**/*",
+    "rollup*.config.ts",
+    "rollup/**/*",
+    "global.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

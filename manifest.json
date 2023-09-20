@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Chrome Companion",
+  "version": "1.0.0",
+  "action": {
+    "default_title": "Chrome Companion",
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  "permissions": [
+    "storage"
+  ]
+}
