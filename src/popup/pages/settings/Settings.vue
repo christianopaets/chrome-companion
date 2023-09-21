@@ -44,7 +44,7 @@ function onTabChange(): void {
            :exact="true"
            :model="items"
            class="mt-1 px-3"
-           @tab-change="onTabChange()">
+           @tab-change="onTabChange()" :pt="{menu: {class: 'bg-transparent'}}">
     <template v-slot:item="{ label, item, props }">
       <router-link v-if="item.route"
                    v-slot="routerProps"

@@ -20,6 +20,12 @@ import {chromeStoragePlugin} from '../common/pinia/chrome-storage.plugin';
 import {utilsPlugin} from '../common/pinia/utils.plugin';
 import Toast from 'primevue/toast';
 import ConfirmDialog from 'primevue/confirmdialog';
+import InputText from 'primevue/inputtext';
+import Tooltip from 'primevue/tooltip';
+import Message from 'primevue/message';
+import Card from 'primevue/card';
+import Fieldset from 'primevue/fieldset';
+import {HttpService} from './services/http.service';
 
 const pinia = createPinia()
     .use(utilsPlugin);
@@ -29,6 +35,7 @@ const app = createApp(Popup)
     .use(PrimeVue, {ripple: true})
     .use(ConfirmationService)
     .use(ToastService)
+    .directive('tooltip', Tooltip)
     .component('Toolbar', Toolbar)
     .component('Button', Button)
     .component('TabMenu', TabMenu)
@@ -37,9 +44,14 @@ const app = createApp(Popup)
     .component('Divider', Divider)
     .component('Slider', Slider)
     .component('InputSwitch', InputSwitch)
+    .component('InputText', InputText)
     .component('Toast', Toast)
     .component('ConfirmDialog', ConfirmDialog)
-    .provide(ThemeService.INJECTOR, new ThemeService());
+    .component('Message', Message)
+    .component('Card', Card)
+    .component('Fieldset', Fieldset)
+    .provide(ThemeService.INJECTOR, new ThemeService())
+    .provide(HttpService.INJECTOR, new HttpService());
 
 ChromeStoragePreload.preload()
     .then(() => {

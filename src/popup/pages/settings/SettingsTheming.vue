@@ -119,7 +119,7 @@ function save(): void {
                 @change="onInputStyleChange($event)"></Dropdown>
     </div>
     <Divider></Divider>
-    <div class="flex gap-2">
+    <div class="flex gap-3">
       <Button label="Reset to previous"
               :disabled="!dirty"
               severity="danger"
