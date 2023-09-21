@@ -10,6 +10,7 @@ const httpService = inject<HttpService>(HttpService.INJECTOR)!;
 const key = ref(apiConfigStore.key);
 const tested = ref<TestState>('untested');
 const locked = ref(!!apiConfigStore.key);
+const emit = defineEmits(['saved']);
 
 const testedSeverity = computed(() => {
   switch (tested.value) {
@@ -54,6 +55,7 @@ async function testConnection(): Promise<void> {
 function save(): void {
   apiConfigStore.save(key.value);
   locked.value = true;
+  emit('saved');
 }
 
 function unlock(): void {

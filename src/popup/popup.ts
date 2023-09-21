@@ -1,7 +1,8 @@
 import './scss/index.scss';
+import {pinia} from './stores';
 import {createApp} from 'vue';
 import Popup from './Popup.vue';
-import router from './router';
+import {router} from './router';
 import PrimeVue from 'primevue/config';
 import Toolbar from 'primevue/toolbar';
 import {ThemeService} from './services/theme.service';
@@ -15,9 +16,6 @@ import InputSwitch from 'primevue/inputswitch';
 import ConfirmationService from 'primevue/confirmationservice';
 import ToastService from 'primevue/toastservice';
 import {ChromeStoragePreload} from '../common/pinia/chrome-storage.preload';
-import {createPinia} from 'pinia';
-import {chromeStoragePlugin} from '../common/pinia/chrome-storage.plugin';
-import {utilsPlugin} from '../common/pinia/utils.plugin';
 import Toast from 'primevue/toast';
 import ConfirmDialog from 'primevue/confirmdialog';
 import InputText from 'primevue/inputtext';
@@ -27,11 +25,7 @@ import Card from 'primevue/card';
 import Fieldset from 'primevue/fieldset';
 import {HttpService} from './services/http.service';
 
-const pinia = createPinia()
-    .use(utilsPlugin);
-
 const app = createApp(Popup)
-    .use(router)
     .use(PrimeVue, {ripple: true})
     .use(ConfirmationService)
     .use(ToastService)
@@ -55,7 +49,7 @@ const app = createApp(Popup)
 
 ChromeStoragePreload.preload()
     .then(() => {
-        pinia.use(chromeStoragePlugin);
         app.use(pinia)
+            .use(router)
             .mount('body');
     });
