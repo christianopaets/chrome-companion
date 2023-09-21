@@ -1,10 +1,15 @@
 import type {RouteRecordRaw} from 'vue-router';
 import {createMemoryHistory, createRouter} from 'vue-router';
+import {useApiConfigStore} from '../stores/api-config.store';
 
 const routes: RouteRecordRaw[] = [
     {
         path: '/',
-        component: () => import('../pages/Dashboard.vue')
+        component: () => import('../pages/Dashboard.vue'),
+    },
+    {
+        path: '/welcome',
+        component: () => import('../pages/Welcome.vue')
     },
     {
         path: '/settings',
@@ -22,7 +27,15 @@ const routes: RouteRecordRaw[] = [
     }
 ];
 
-export default createRouter({
+const router = createRouter({
     history: createMemoryHistory(),
     routes
 });
+
+router.beforeEach(async to => {
+    const apiSettingsStore = useApiConfigStore();
+    if (!apiSettingsStore.key && !to.path.includes('welcome')) {
+        return '/welcome';
+    }
+});
+export {router};

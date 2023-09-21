@@ -1,12 +1,10 @@
 import 'pinia';
 import type {Router} from 'vue-router';
-import {useRouter} from 'vue-router';
 import type {PiniaPluginContext} from 'pinia';
 import {markRaw} from 'vue';
-import {useToast} from 'primevue/usetoast';
 import type {ToastServiceMethods} from 'primevue/toastservice';
-import {useConfirm} from 'primevue/useconfirm';
 import type {ConfirmationOptions} from 'primevue/confirmationoptions';
+import {router} from '../../popup/router';
 
 declare module 'pinia' {
     export interface PiniaCustomProperties {
@@ -20,7 +18,5 @@ declare module 'pinia' {
 }
 
 export function utilsPlugin(context: PiniaPluginContext): void {
-    context.store.router = markRaw(useRouter());
-    context.store.toast = markRaw(useToast());
-    context.store.confirm = markRaw(useConfirm());
+    context.store.router = markRaw(router);
 }
