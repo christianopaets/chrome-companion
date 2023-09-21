@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import {ref} from 'vue';
 import type {MenuItem} from 'primevue/menuitem';
-import {useRouter} from 'vue-router';
 import Menu from 'primevue/menu';
 import {PrimeIcons} from 'primevue/api';
 
-const router = useRouter();
 const menu = ref<Menu>();
 const settings = ref<MenuItem[]>([
   {
@@ -14,16 +12,12 @@ const settings = ref<MenuItem[]>([
       {
         label: 'Theming',
         icon: PrimeIcons.PALETTE,
-        command: () => {
-          router.push('/settings/theming');
-        }
+        route: '/settings/theming'
       },
       {
         label: 'API',
         icon: PrimeIcons.CLOUD,
-        command: () => {
-          router.push('/settings/api');
-        }
+        route: '/settings/api'
       }
     ]
   }
@@ -47,7 +41,21 @@ function toggle(event: MouseEvent): void {
               @click="toggle"></Button>
       <Menu ref="menu"
             :popup="true"
-            :model="settings"></Menu>
+            :model="settings">
+        <template v-slot:item="{ label, item, props }">
+          <router-link v-if="item.route"
+                       v-slot="routerProps"
+                       :to="item.route"
+                       custom>
+            <a :href="routerProps.href"
+               v-bind="props.action"
+               @click="routerProps.navigate($event)">
+              <span v-bind="props.icon"/>
+              <span v-bind="props.label">{{ label }}</span>
+            </a>
+          </router-link>
+        </template>
+      </Menu>
     </template>
   </Toolbar>
 </template>
