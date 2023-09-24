@@ -3,6 +3,7 @@ import {useApiConfigStore} from '../../stores/api-config.store';
 import {computed, inject, ref, watch} from 'vue';
 import {HttpService} from '../../services/http.service';
 import {PrimeIcons} from 'primevue/api';
+import type {TooltipOptions} from 'primevue/tooltip';
 
 type TestState = 'untested' | 'loading' | 'tested' | 'error';
 const apiConfigStore = useApiConfigStore();
@@ -36,6 +37,11 @@ const icon = computed(() => {
       return undefined;
   }
 });
+
+const tooltip = computed<TooltipOptions>(() => ({
+  value: 'Click to Edit',
+  disabled: !locked.value
+}));
 
 watch(key, () => {
   tested.value = 'untested';
@@ -74,9 +80,9 @@ function unlock(): void {
                  type="text"
                  :readonly="locked"
                  placeholder="Enter API key"></InputText>
-      <i :class="locked ? PrimeIcons.LOCK : PrimeIcons.LOCK_OPEN"
-         class="cursor-pointer"
-         v-tooltip.left="'Click to edit'"
+      <i :class="locked ? 'pi-lock' : PrimeIcons.LOCK_OPEN"
+         class="cursor-pointer pi"
+         v-tooltip.left="tooltip"
          @click="unlock()"></i>
     </div>
   </div>

@@ -1,7 +1,7 @@
 import type {PrimeVueTheme} from '../types/prime-vue-theme.type';
+import type {BaseState} from './base.state';
 
-export interface SettingsState {
-    version: number;
+export interface SettingsState extends BaseState {
     theme: PrimeVueTheme;
     scale: number;
     inputStyle: 'filled' | 'outlined';

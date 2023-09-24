@@ -4,6 +4,7 @@ import type {ApiConfigState} from '../../common/storage/api-config.state';
 export const useApiConfigStore = defineStore('api-config', {
     chrome: 'sync',
     state: (): ApiConfigState => ({
+        version: 1,
         key: ''
     }),
     actions: {

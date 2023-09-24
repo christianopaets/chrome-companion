@@ -3,7 +3,9 @@ import {ref} from 'vue';
 import type {MenuItem} from 'primevue/menuitem';
 import Menu from 'primevue/menu';
 import {PrimeIcons} from 'primevue/api';
+import {useRouter} from 'vue-router';
 
+const router = useRouter();
 const menu = ref<Menu>();
 const settings = ref<MenuItem[]>([
   {
@@ -31,7 +33,8 @@ function toggle(event: MouseEvent): void {
 <template>
   <Toolbar class="border-noround">
     <template v-slot:start>
-      <h1 class="text-2xl">Chrome Companion</h1>
+      <h1 class="text-2xl"
+          @click="router.push('/')">Chrome Companion</h1>
     </template>
     <template v-slot:end>
       <Button icon="pi pi-cog"

@@ -4,7 +4,7 @@ import ApiForm from '../../components/settings/ApiForm.vue';
 </script>
 
 <template>
-  <section class="p-3">
+  <section class="p-3 w-full">
     <ApiForm></ApiForm>
     <ApiHelper v-once></ApiHelper>
   </section>

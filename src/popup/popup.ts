@@ -1,4 +1,6 @@
 import './scss/index.scss';
+import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.css';
 import {pinia} from './stores';
 import {createApp} from 'vue';
 import Popup from './Popup.vue';
@@ -51,5 +53,6 @@ ChromeStoragePreload.preload()
     .then(() => {
         app.use(pinia)
             .use(router)
-            .mount('body');
+            .mount('#app')
+        document.dispatchEvent(new Event('app-mounted'));
     });

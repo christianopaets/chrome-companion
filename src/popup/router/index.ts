@@ -17,11 +17,19 @@ const routes: RouteRecordRaw[] = [
         children: [
             {
                 path: 'theming',
-                component: () => import('../pages/settings/SettingsTheming.vue')
+                component: () => import('../pages/settings/SettingsTheming.vue'),
+                meta: {
+                    id: 'settings',
+                    priority: 0
+                }
             },
             {
                 path: 'api',
-                component: () => import('../pages/settings/SettingsAPI.vue')
+                component: () => import('../pages/settings/SettingsAPI.vue'),
+                meta: {
+                    id: 'settings',
+                    priority: 1
+                }
             }
         ]
     }
@@ -36,6 +44,13 @@ router.beforeEach(async to => {
     const apiSettingsStore = useApiConfigStore();
     if (!apiSettingsStore.key && !to.path.includes('welcome')) {
         return '/welcome';
+    }
+});
+
+router.afterEach((to, from) => {
+    if (to.meta.id && from.meta.id && to.meta.id === from.meta.id
+        && typeof to.meta.priority === 'number' && typeof from.meta.priority === 'number') {
+        to.meta.direction = to.meta.priority > from.meta.priority ? 'left' : 'right';
     }
 });
 export {router};
