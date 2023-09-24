@@ -2,6 +2,7 @@
 import {useRoute, useRouter} from 'vue-router';
 import {onMounted, ref, watch} from 'vue';
 import {PrimeIcons} from 'primevue/api';
+import SlideTransition from '../../components/animations/SlideTransition.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -40,30 +41,33 @@ function onTabChange(): void {
 </script>
 
 <template>
-  <TabMenu v-model:activeIndex="active"
-           :exact="true"
-           :model="items"
-           class="mt-1 px-3"
-           @tab-change="onTabChange()" :pt="{menu: {class: 'bg-transparent'}}">
-    <template v-slot:item="{ label, item, props }">
-      <router-link v-if="item.route"
-                   v-slot="routerProps"
-                   :to="item.route"
-                   custom>
-        <a :href="routerProps.href"
-           v-bind="props.action"
-           class="bg-transparent"
-           @click="routerProps.navigate($event)"
-           @keydown.enter.space="routerProps.navigate($event)">
-          <span v-bind="props.icon"/>
-          <span v-bind="props.label">{{ label }}</span>
-        </a>
-      </router-link>
-    </template>
-  </TabMenu>
-  <router-view></router-view>
+  <section>
+    <TabMenu v-model:activeIndex="active"
+             :exact="true"
+             :model="items"
+             class="mt-1 px-3"
+             @tab-change="onTabChange()" :pt="{menu: {class: 'bg-transparent'}}">
+      <template v-slot:item="{ label, item, props }">
+        <router-link v-if="item.route"
+                     v-slot="routerProps"
+                     :to="item.route"
+                     custom>
+          <a :href="routerProps.href"
+             v-bind="props.action"
+             class="bg-transparent"
+             @click="routerProps.navigate($event)"
+             @keydown.enter.space="routerProps.navigate($event)">
+            <span v-bind="props.icon"/>
+            <span v-bind="props.label">{{ label }}</span>
+          </a>
+        </router-link>
+      </template>
+    </TabMenu>
+    <router-view v-slot="{Component, route}">
+      <SlideTransition :direction="route.meta.direction">
+        <component :is="Component"
+                   :key="route.path"></component>
+      </SlideTransition>
+    </router-view>
+  </section>
 </template>
-
-<style scoped lang="scss">
-
-</style>

@@ -16,11 +16,12 @@ export function chromeStoragePlugin(context: PiniaPluginContext): void {
     if (!options.chrome) {
         return;
     }
-    if (!ChromeStoragePreload[options.chrome].hasOwnProperty(store.$id)) {
+    if (!ChromeStoragePreload[options.chrome]?.hasOwnProperty(store.$id)) {
         return;
     }
     store.$patch(ChromeStoragePreload[options.chrome][store.$id]);
     store.$subscribe(async (_, state) => {
         await chrome.storage[options.chrome!]?.set({[store.$id]: state});
+        localStorage.setItem(store.$id, JSON.stringify(state));
     });
 }

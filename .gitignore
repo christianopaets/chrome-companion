@@ -117,6 +117,7 @@ out
 .nuxt
 dist
 extension
+stats
 
 # Gatsby files
 

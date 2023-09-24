@@ -84,7 +84,7 @@ function save(): void {
 </script>
 
 <template>
-  <section class="p-3 mt-1">
+  <section class="p-3 mt-1 w-full">
     <div class="flex align-items-center justify-content-between">
       <p class="text-base font-medium">Theme</p>
       <Dropdown v-model="theme"

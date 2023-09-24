@@ -7,19 +7,51 @@ import esbuild from 'rollup-plugin-esbuild';
 import htmlPlugin from './rollup/html.plugin';
 import primevueThemesPlugin from './rollup/primevue-themes.plugin';
 import replace from '@rollup/plugin-replace';
+import purgeCSSPlugin from '@fullhuman/postcss-purgecss';
 
 const prod = process.env.BUILD === 'production';
 
 const config: RollupOptions = {
-    input: './src/popup/popup.ts',
+    input: ['./src/popup/popup.preload.ts', './src/popup/popup.ts'],
     output: {
         dir: './extension/popup',
         assetFileNames: 'assets/[name].[ext]',
-        chunkFileNames: '[name].js'
+        chunkFileNames: '[name].js',
+        manualChunks: (id) => {
+            if (id.includes('/vue/')) {
+                return 'vue';
+            }
+            if (id.includes('/primevue/')) {
+                return 'primevue';
+            }
+            if (id.includes('node_modules')) {
+                return 'vendor';
+            }
+        }
     },
     plugins: [
         vuePlugin({isProduction: prod}),
-        styles({mode: 'extract'}),
+        styles({
+            mode: 'extract',
+            minimize: prod,
+            plugins: [
+                purgeCSSPlugin({
+                    content: [`./src/**/*.html`, `./src/**/*.vue`],
+                    keyframes: true,
+                    defaultExtractor(content) {
+                        const contentWithoutStyleBlocks = content.replace(/<style[^]+?<\/style>/gi, '');
+                        return contentWithoutStyleBlocks.match(/[A-Za-z0-9-_/:]*[A-Za-z0-9-_/]+/g) || [];
+                    },
+                    safelist: [
+                        /-(leave|enter|appear)(|-(to|from|active))$/,
+                        /^(?!(|.*?:)cursor-move).+-move$/,
+                        /^router-link(|-exact)-active$/,
+                        /data-v-.*/,
+                        /pi-.*/
+                    ],
+                }) as any // bad
+            ]
+        }),
         resolve({moduleDirectories: ['node_modules']}),
         commonjs(),
         esbuild({

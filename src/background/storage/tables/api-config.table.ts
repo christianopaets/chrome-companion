@@ -6,6 +6,10 @@ const table: Table<ApiConfigState> = {
     name: 'api-config',
     type: 'sync',
     fields: {
+        version: {
+            default: 1,
+            update: 1
+        },
         key: {
             default: '',
             update: ''
