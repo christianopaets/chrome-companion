@@ -1,20 +1,17 @@
 import type {Table} from '../interfaces/table.interface';
-import type {ApiConfigState} from '../../../common/storage/api-config.state';
+import type {ApiConfigStateVersions} from '@state/api-config';
 
-const table: Table<ApiConfigState> = {
-    version: 1,
+const table: Table = {
     name: 'api-config',
     type: 'sync',
-    fields: {
-        version: {
-            default: 1,
-            update: 1
-        },
-        key: {
-            default: '',
-            update: ''
+    migrations: [
+        {
+            version: 1,
+            up: (): ApiConfigStateVersions.V1 => ({
+                key: ''
+            }),
         }
-    }
+    ]
 };
 
 export default table;

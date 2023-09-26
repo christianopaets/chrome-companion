@@ -2,7 +2,8 @@
   "name": "chrome-companion",
   "scripts": {
     "build:dev": "bunx --bun rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --watch",
-    "build:prod": "bunx --bun rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --environment BUILD:production"
+    "build:prod": "bunx --bun rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --environment BUILD:production",
+    "test": "bun test"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^5.0.0",

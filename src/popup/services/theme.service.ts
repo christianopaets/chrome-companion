@@ -1,6 +1,6 @@
 import type {PrimeVueTheme} from '../../common/types/prime-vue-theme.type';
 import {capitalize} from '../../common/utils/capitalize';
-import type {SettingsState} from '../../common/storage/settings.state';
+import type {SettingsStateV1} from '@state/settings/settings-v1.state';
 
 export class ThemeService {
 
@@ -34,7 +34,7 @@ export class ThemeService {
         return `./themes/${this._currentTheme}/theme.css`;
     }
 
-    init({theme, scale, inputStyle, ripple}: SettingsState): void {
+    init({theme, scale, inputStyle, ripple}: SettingsStateV1): void {
         if (this._initialized) {
             console.warn('Theme is already initialized. Skipped this part!');
             return;

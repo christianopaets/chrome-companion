@@ -1,4 +1,4 @@
-import type {SettingsState} from '../common/storage/settings.state';
+import type {SettingsState} from '@state/settings';
 
 const preload = document.getElementById('preload') as HTMLDivElement;
 let bgColor = 'var(--surface-ground)';
@@ -14,9 +14,10 @@ if (settingsStateString) {
 preload.style.backgroundColor = bgColor;
 document.addEventListener('app-mounted', () => {
     setTimeout(() => {
+        preload.classList.add('transition-all', 'transition-duration-150', 'animation-ease-in-out');
         preload.style.opacity = '0';
         setTimeout(() => {
             preload.remove();
         }, 150);
-    }, 150);
+    }, 250);
 });

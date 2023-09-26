@@ -1,10 +1,9 @@
 import {defineStore} from 'pinia';
-import type {SettingsState} from '../../common/storage/settings.state';
+import type {SettingsState} from '../../common/storage/settings';
 
 export const useSettingsStore = defineStore('settings', {
     chrome: 'sync',
     state: (): SettingsState => ({
-        version: 1,
         theme: 'soho-light',
         inputStyle: 'outlined',
         ripple: true,

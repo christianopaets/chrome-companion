@@ -25,13 +25,18 @@ import Tooltip from 'primevue/tooltip';
 import Message from 'primevue/message';
 import Card from 'primevue/card';
 import Fieldset from 'primevue/fieldset';
+import Dialog from 'primevue/dialog';
 import {HttpService} from './services/http.service';
+import FocusTrap from 'primevue/focustrap';
+import Ripple from 'primevue/ripple';
 
 const app = createApp(Popup)
     .use(PrimeVue, {ripple: true})
     .use(ConfirmationService)
     .use(ToastService)
     .directive('tooltip', Tooltip)
+    .directive('focustrap', FocusTrap)
+    .directive('ripple', Ripple)
     .component('Toolbar', Toolbar)
     .component('Button', Button)
     .component('TabMenu', TabMenu)
@@ -46,6 +51,7 @@ const app = createApp(Popup)
     .component('Message', Message)
     .component('Card', Card)
     .component('Fieldset', Fieldset)
+    .component('Dialog', Dialog)
     .provide(ThemeService.INJECTOR, new ThemeService())
     .provide(HttpService.INJECTOR, new HttpService());
 
@@ -53,6 +59,6 @@ ChromeStoragePreload.preload()
     .then(() => {
         app.use(pinia)
             .use(router)
-            .mount('#app')
+            .mount('#app');
         document.dispatchEvent(new Event('app-mounted'));
     });

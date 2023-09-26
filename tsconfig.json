@@ -24,7 +24,16 @@
       "bun-types",
       "vue",
       "chrome-types"
-    ]
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@state/*": [
+        "src/common/storage/*"
+      ],
+      "@store/*": [
+        "src/popup/stores/*"
+      ]
+    }
   },
   "include": [
     "src/**/*",

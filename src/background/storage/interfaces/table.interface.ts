@@ -3,11 +3,13 @@ export interface TableOptions<State extends object, K extends keyof State> {
     update: State[K] | null;
 }
 
-export interface Table<State extends object> {
+export interface StorageMigration {
     version: number;
+    up: (old: any) => unknown;
+}
+
+export interface Table {
     name: string;
     type: 'local' | 'sync';
-    fields: {
-        [K in keyof State]: TableOptions<State, K>;
-    };
+    migrations: StorageMigration[];
 }

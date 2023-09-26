@@ -2,7 +2,7 @@
 import {inject} from "vue";
 import {ThemeService} from './services/theme.service';
 import PopupToolbar from './components/base/PopupToolbar.vue';
-import {useSettingsStore} from './stores/settings.store';
+import {useSettingsStore} from '@store/settings.store';
 import FadeThroughAnimation from './components/animations/FadeThroughAnimation.vue';
 
 const themeService = inject<ThemeService>(ThemeService.INJECTOR)!;
