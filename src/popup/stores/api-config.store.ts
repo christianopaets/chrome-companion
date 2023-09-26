@@ -1,10 +1,9 @@
 import {defineStore} from 'pinia';
-import type {ApiConfigState} from '../../common/storage/api-config.state';
+import type {ApiConfigState} from '@state/api-config';
 
 export const useApiConfigStore = defineStore('api-config', {
     chrome: 'sync',
     state: (): ApiConfigState => ({
-        version: 1,
         key: ''
     }),
     actions: {
@@ -13,5 +12,3 @@ export const useApiConfigStore = defineStore('api-config', {
         }
     }
 });
-
-export type ApiSettingsStoreType = ReturnType<typeof useApiConfigStore>;

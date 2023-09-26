@@ -13,57 +13,35 @@ export class StorageMigrationService {
         await this._migrate(sync, 'sync');
     }
 
-    private static async _migrate(tables: Table<object>[], type: 'local' | 'sync'): Promise<void> {
+    private static async _migrate(tables: Table[], type: 'local' | 'sync'): Promise<void> {
         if (!tables.length) {
             console.log(`${capitalize(type)} storage must be empty!`);
             await chrome.storage[type].clear();
             return;
         }
         const storage = await chrome.storage[type].get();
-        const newStorage: Record<string, object> = {};
-        let skipMigrationLength = 0;
+        const newStorage: Record<string, unknown> & Record<'migrations', Record<string, number>> = {
+            migrations: {},
+            ...storage
+        };
+        let upToDate = 0;
         for (let table of tables) {
-            if (!storage.hasOwnProperty(table.name)) {
-                newStorage[table.name] = this._createTable(table);
+            const currentTableVersion = storage?.migrations?.[table.name] || 0;
+            const migrations = table.migrations.filter(migration => migration.version > currentTableVersion);
+            if (!migrations.length) {
+                ++upToDate;
                 continue;
             }
-            if (storage[table.name]?.version === table.version) {
-                console.log(`Skip migration of %c${table.name}`, 'font-weight: bold;');
-                ++skipMigrationLength;
-                newStorage[table.name] = storage[table.name];
-                continue;
+            for (let migration of migrations) {
+                newStorage[table.name] = migration.up(newStorage[table.name]);
+                newStorage.migrations[table.name] = migration.version;
             }
-            newStorage[table.name] = this._updateTable(table, storage[table.name]);
         }
-        if (skipMigrationLength === tables.length) {
-            console.log('%cMigration was skipped do to no changes!', 'font-weight: bold;');
+        if (upToDate === tables.length) {
+            console.log('%cMigration was skipped due to no changes!', 'font-weight: bold;');
             return;
         }
         await chrome.storage[type].clear();
         await chrome.storage[type].set(newStorage);
-    }
-
-    private static _createTable(table: Table<Record<string, any>>): Record<string, any> {
-        const newTable: Record<string, any> = {};
-        for (let field of Object.keys(table.fields)) {
-            newTable[field] = table.fields[field]!.default;
-        }
-        return newTable;
-    }
-
-    private static _updateTable(table: Table<Record<string, any>>, oldValues: Record<string, any>): Record<string, any> {
-        const newTable: Record<string, any> = {};
-        for (let field of Object.keys(table.fields)) {
-            if (!oldValues.hasOwnProperty(field)) {
-                newTable[field] = table.fields[field]!.default;
-                continue;
-            }
-            if (table.fields[field]!.update !== null) {
-                newTable[field] = table.fields[field]!.update;
-                continue;
-            }
-            newTable[field] = oldValues[field];
-        }
-        return newTable;
     }
 }

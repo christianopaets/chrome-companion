@@ -8,6 +8,7 @@ import htmlPlugin from './rollup/html.plugin';
 import primevueThemesPlugin from './rollup/primevue-themes.plugin';
 import replace from '@rollup/plugin-replace';
 import purgeCSSPlugin from '@fullhuman/postcss-purgecss';
+import typescript from '@rollup/plugin-typescript';
 
 const prod = process.env.BUILD === 'production';
 
@@ -18,7 +19,7 @@ const config: RollupOptions = {
         assetFileNames: 'assets/[name].[ext]',
         chunkFileNames: '[name].js',
         manualChunks: (id) => {
-            if (id.includes('/vue/')) {
+            if (id.includes('/vue/') || id.includes('/@vue/')) {
                 return 'vue';
             }
             if (id.includes('/primevue/')) {
@@ -31,10 +32,11 @@ const config: RollupOptions = {
     },
     plugins: [
         vuePlugin({isProduction: prod}),
+        typescript(),
         styles({
             mode: 'extract',
             minimize: prod,
-            plugins: [
+            plugins: prod ? [
                 purgeCSSPlugin({
                     content: [`./src/**/*.html`, `./src/**/*.vue`],
                     keyframes: true,
@@ -50,7 +52,7 @@ const config: RollupOptions = {
                         /pi-.*/
                     ],
                 }) as any // bad
-            ]
+            ] : []
         }),
         resolve({moduleDirectories: ['node_modules']}),
         commonjs(),

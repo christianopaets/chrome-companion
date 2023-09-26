@@ -1,5 +1,6 @@
 import type {PiniaPluginContext} from 'pinia';
 import {ChromeStoragePreload} from './chrome-storage.preload';
+import {toRaw} from 'vue';
 
 declare module 'pinia' {
     export interface DefineStoreOptionsBase<S, Store> {
@@ -21,7 +22,7 @@ export function chromeStoragePlugin(context: PiniaPluginContext): void {
     }
     store.$patch(ChromeStoragePreload[options.chrome][store.$id]);
     store.$subscribe(async (_, state) => {
-        await chrome.storage[options.chrome!]?.set({[store.$id]: state});
+        await chrome.storage[options.chrome!]?.set({[store.$id]: toRaw(state)});
         localStorage.setItem(store.$id, JSON.stringify(state));
-    });
+    }, {detached: true});
 }

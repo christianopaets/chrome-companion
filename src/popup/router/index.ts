@@ -1,11 +1,15 @@
 import type {RouteRecordRaw} from 'vue-router';
 import {createMemoryHistory, createRouter} from 'vue-router';
-import {useApiConfigStore} from '../stores/api-config.store';
+import {useApiConfigStore} from '@store/api-config.store';
 
 const routes: RouteRecordRaw[] = [
     {
         path: '/',
-        component: () => import('../pages/Dashboard.vue'),
+        redirect: '/conversations'
+    },
+    {
+        path: '/conversations',
+        component: () => import('../pages/Conversations.vue')
     },
     {
         path: '/welcome',

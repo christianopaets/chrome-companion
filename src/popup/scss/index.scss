@@ -6,4 +6,22 @@ body {
   margin: 0;
   width: 500px;
   height: 600px;
+  overflow: overlay;
+}
+
+body {
+  &::-webkit-scrollbar {
+    width: 0.27rem;
+    background: var(--surface-100);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--surface-300);
+    -webkit-border-radius: 1ex;
+    -webkit-box-shadow: none;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background: var(--surface-300);
+  }
 }

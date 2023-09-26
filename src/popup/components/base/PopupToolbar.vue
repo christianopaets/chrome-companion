@@ -31,7 +31,7 @@ function toggle(event: MouseEvent): void {
 </script>
 
 <template>
-  <Toolbar class="border-noround">
+  <Toolbar class="border-noround p-3">
     <template v-slot:start>
       <h1 class="text-2xl"
           @click="router.push('/')">Chrome Companion</h1>
@@ -41,6 +41,7 @@ function toggle(event: MouseEvent): void {
               class="w-2rem h-2rem"
               aria-haspopup="true"
               aria-controls="overlay_menu"
+              severity="info"
               @click="toggle"></Button>
       <Menu ref="menu"
             :popup="true"
