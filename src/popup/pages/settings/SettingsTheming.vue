@@ -2,11 +2,12 @@
 import {inject, ref} from 'vue';
 import {ThemeService} from '../../services/theme.service';
 import type {DropdownChangeEvent} from 'primevue/dropdown';
-import {useSettingsStore} from '../../stores/settings.store';
+import {useSettingsStore} from '@store/settings.store';
 import ScaleSelector from '../../components/settings/ScaleSelector.vue';
 import {onBeforeRouteLeave} from 'vue-router';
 import {useConfirm} from 'primevue/useconfirm';
 import {useToast} from 'primevue/usetoast';
+import {useI18n} from 'vue-i18n';
 
 const settingsStore = useSettingsStore();
 const themeService = inject<ThemeService>(ThemeService.INJECTOR)!;
@@ -17,6 +18,7 @@ const inputStyle = ref(settingsStore.inputStyle);
 const dirty = ref(false);
 const confirm = useConfirm();
 const toast = useToast();
+const {t} = useI18n();
 
 onBeforeRouteLeave(async () => {
   if (!dirty.value) {
@@ -24,8 +26,10 @@ onBeforeRouteLeave(async () => {
   }
   return await new Promise<boolean>(resolve => {
     confirm.require({
-      message: 'Are you sure you want to discard changes?',
-      header: 'You have unsaved changes.',
+      header: t('confirm.leave.header'),
+      message: t('confirm.leave.message'),
+      acceptLabel: t('confirm.leave.accept'),
+      rejectLabel: t('confirm.leave.reject'),
       icon: 'pi pi-info-circle',
       acceptClass: 'p-button-danger',
       accept: () => {
@@ -79,53 +83,53 @@ function save(): void {
     inputStyle: inputStyle.value
   });
   dirty.value = false;
-  toast.add({severity: 'success', summary: 'Hooray!', detail: 'UI changed successfully', life: 3000});
+  toast.add({severity: 'success', summary: t('toast.save.summary'), detail: t('toast.save.detail'), life: 2000});
 }
 </script>
 
 <template>
   <section class="p-3 mt-1 w-full">
     <div class="flex align-items-center justify-content-between">
-      <p class="text-base font-medium">Theme</p>
+      <p class="text-base font-medium">{{ t('control.theme.label') }}</p>
       <Dropdown v-model="theme"
                 :options="themeService.selectThemes"
                 class="w-14rem"
-                placeholder="Select the theme"
+                :placeholder="t('control.theme.placeholder')"
                 option-label="label"
                 option-value="value"
                 @change="onThemeChange($event)"></Dropdown>
     </div>
     <Divider></Divider>
     <div class="flex align-items-center justify-content-between">
-      <p class="text-base font-medium">Scaling</p>
+      <p class="text-base font-medium">{{ t('control.scaling.label') }}</p>
       <ScaleSelector v-model="scale"
                      @change="onScaleChange($event)"></ScaleSelector>
     </div>
     <Divider></Divider>
     <div class="flex align-items-center justify-content-between">
-      <p class="text-base font-medium">Ripple</p>
+      <p class="text-base font-medium">{{ t('control.ripple.label') }}</p>
       <InputSwitch v-model="ripple"
                    @input="onRippleChange($event)"></InputSwitch>
     </div>
     <Divider></Divider>
     <div class="flex align-items-center justify-content-between">
-      <p class="text-base font-medium">Input Style</p>
+      <p class="text-base font-medium">{{ t('control.input-style.label') }}</p>
       <Dropdown v-model="inputStyle"
                 :options="themeService.inputStyles"
                 class="w-14rem"
-                placeholder="Select input style"
+                :placeholder="t('control.input-style.placeholder')"
                 option-label="label"
                 option-value="value"
                 @change="onInputStyleChange($event)"></Dropdown>
     </div>
     <Divider></Divider>
     <div class="flex gap-3">
-      <Button label="Reset to previous"
+      <Button :label="t('button.reset')"
               :disabled="!dirty"
               severity="danger"
               class="ml-auto"
               @click="reset()"></Button>
-      <Button label="Save"
+      <Button :label="t('button.save')"
               class="mt-auto"
               :disabled="!dirty"
               @click="save()"></Button>
@@ -133,6 +137,43 @@ function save(): void {
   </section>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<i18n>
+{
+  "en": {
+    "control": {
+      "theme": {
+        "label": "Theme",
+        "placeholder": "Select the theme"
+      },
+      "scaling": {
+        "label": "Scaling"
+      },
+      "ripple": {
+        "label": "Ripple"
+      },
+      "input-style": {
+        "label": "Input Style",
+        "placeholder": "Select input style"
+      }
+    },
+    "button": {
+      "reset": "Reset to previous",
+      "save": "Save"
+    },
+    "toast": {
+      "save": {
+        "summary": "Hooray!",
+        "detail": "UI changed successfully"
+      }
+    },
+    "confirm": {
+      "leave": {
+        "header": "You have unsaved changes.",
+        "message": "Are you sure you want to discard changes?",
+        "accept": "Yes",
+        "reject": "No"
+      }
+    }
+  }
+}
+</i18n>

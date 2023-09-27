@@ -2,6 +2,7 @@
   "manifest_version": 3,
   "name": "Chrome Companion",
   "version": "1.0.0",
+  "default_locale": "en",
   "action": {
     "default_title": "Chrome Companion",
     "default_popup": "popup/popup.html"

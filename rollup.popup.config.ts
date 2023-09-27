@@ -9,6 +9,7 @@ import primevueThemesPlugin from './rollup/primevue-themes.plugin';
 import replace from '@rollup/plugin-replace';
 import purgeCSSPlugin from '@fullhuman/postcss-purgecss';
 import typescript from '@rollup/plugin-typescript';
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 
 const prod = process.env.BUILD === 'production';
 
@@ -32,6 +33,10 @@ const config: RollupOptions = {
     },
     plugins: [
         vuePlugin({isProduction: prod}),
+        VueI18nPlugin({
+            include: './_locales/*/en.json',
+            forceStringify: true
+        }),
         typescript(),
         styles({
             mode: 'extract',
@@ -78,7 +83,14 @@ const config: RollupOptions = {
         primevueThemesPlugin({
             themes: ['soho-light', 'soho-dark', 'lara-light-teal', 'lara-dark-teal'],
             output: './extension/popup/themes'
-        })
+        }),
+        {
+            name: 'i18n',
+            async closeBundle() {
+                const {cpSync} = await import('fs');
+                cpSync('./_locales', './extension/_locales', {recursive: true});
+            }
+        }
     ]
 };
 

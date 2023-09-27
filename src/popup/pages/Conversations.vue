@@ -7,9 +7,11 @@ import ConversationListItem from '../components/conversations/ConversationListIt
 import ListAnimation from '../components/animations/ListAnimation.vue';
 import ConversationsWelcome from '../components/conversations/ConversationsWelcome.vue';
 import FadeThroughAnimation from '../components/animations/FadeThroughAnimation.vue';
+import {useI18n} from 'vue-i18n';
 
 const dialog = ref<InstanceType<typeof CreateConversation> | null>(null);
 const conversationsStore = useConversationsStore();
+const {t} = useI18n();
 </script>
 
 <template>
@@ -17,14 +19,15 @@ const conversationsStore = useConversationsStore();
     <FadeThroughAnimation>
       <ListAnimation v-if="conversationsStore.length"
                      class="p-0 relative">
-        <li v-if="conversationsStore.conversations.length"
-            class="flex align-items-center justify-content-between p-3 border-bottom-1 surface-border w-full"
+        <li class="flex align-items-center justify-content-between p-3 border-bottom-1 surface-border w-full"
             :key="'conversation-title'">
-          <h2 class="text-2xl">Conversations</h2>
+          <h2 v-if="conversationsStore.conversations.length"
+              class="text-2xl">{{ t('conversations') }}</h2>
           <Button :icon="PrimeIcons.PLUS"
                   :disabled="!conversationsStore.createPermission"
                   label="Create conversation"
                   size="small"
+                  class="ml-auto"
                   @click="dialog?.create()"></Button>
         </li>
         <ConversationListItem v-for="item in conversationsStore.list"
@@ -37,7 +40,7 @@ const conversationsStore = useConversationsStore();
         </ConversationListItem>
         <li v-if="conversationsStore.archived.length"
             class="block p-3 text-2xl border-bottom-1 surface-border w-full mt-3"
-            key="archived-title">Archived
+            key="archived-title">{{ t('archived') }}
         </li>
         <ConversationListItem v-for="item in conversationsStore.archivedList"
                               :key="item.id"
@@ -56,6 +59,11 @@ const conversationsStore = useConversationsStore();
   </section>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<i18n>
+{
+  "en": {
+    "conversations": "Conversations",
+    "archived": "Archived"
+  }
+}
+</i18n>

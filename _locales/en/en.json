@@ -1,0 +1,40 @@
+{
+  "confirm-dialog": {
+    "conversations": {
+      "archive": {
+        "header": "Archive Confirmation",
+        "message": "Do you want to archive this conversation?",
+        "reject": "No",
+        "accept": "Yes"
+      },
+      "delete": {
+        "header": "Delete Confirmation",
+        "message": "Do you want to delete this conversation?",
+        "reject": "No",
+        "accept": "Yes"
+      },
+      "delete-archived": {
+        "header": "Delete Confirmation",
+        "message": "Do you want to delete this conversation?",
+        "reject": "No",
+        "accept": "Yes"
+      }
+    }
+  },
+  "toast": {
+    "conversations": {
+      "archive": {
+        "summary": "Confirmed",
+        "detail": "Conversation archived"
+      },
+      "delete": {
+        "summary": "Confirmed",
+        "detail": "Conversation deleted"
+      },
+      "delete-archived": {
+        "summary": "Confirmed",
+        "detail": "Conversation deleted"
+      }
+    }
+  }
+}

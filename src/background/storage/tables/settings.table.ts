@@ -13,6 +13,13 @@ const table: Table = {
                 ripple: true,
                 inputStyle: 'outlined'
             })
+        },
+        {
+            version: 2,
+            up: (old: SettingsStateVersions.V1): SettingsStateVersions.V2 => ({
+                ...old,
+                language: chrome.i18n.getUILanguage()
+            })
         }
     ]
 };

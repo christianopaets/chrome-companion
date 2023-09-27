@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {computed, ref} from 'vue';
 import type {ConversationListItem} from '@store/interfaces/conversation-list-item.interface';
+import {useI18n} from 'vue-i18n';
 
 type Emits = {
   create: [name: string];
@@ -12,13 +13,14 @@ const name = ref('');
 const state = ref<'edit' | 'create'>('create');
 const emit = defineEmits<Emits>();
 const conversation = ref<ConversationListItem>();
+const {t} = useI18n();
 
 const label = computed(() => {
   switch (state.value) {
-    case "edit":
-      return "Edit";
-    case "create":
-      return "Create";
+    case 'edit':
+      return 'button.edit';
+    case 'create':
+      return 'button.create';
   }
 });
 
@@ -38,9 +40,9 @@ function edit(item: ConversationListItem): void {
 function submit(): void {
   show.value = false;
   switch (state.value) {
-    case "create":
+    case 'create':
       return emit('create', name.value);
-    case "edit":
+    case 'edit':
       return emit('edit', {
         id: conversation.value!.id,
         name: name.value
@@ -55,7 +57,7 @@ defineExpose({create, edit});
 <template>
   <Dialog v-model:visible="show"
           modal
-          header="Conversation name"
+          :header="t('header')"
           :dismissable-mask="true"
           :style="{width: '60vw'}"
           :draggable="false">
@@ -63,16 +65,31 @@ defineExpose({create, edit});
       <InputText id="conversation-name"
                  v-model="name"
                  class="w-full mt-1"
-                 placeholder="Enter conversation name"
+                 :placeholder="t('input.placeholder')"
                  required
                  autofocus
                  @keydown.enter="submit()"></InputText>
     </template>
     <template v-slot:footer>
-      <Button :label="label"
+      <Button :label="t(label)"
               class="w-full"
               :disabled="!name"
               @click="submit()"></Button>
     </template>
   </Dialog>
 </template>
+
+<i18n>
+{
+  "en": {
+    "header": "Conversation name",
+    "input": {
+      "placeholder": "Enter conversation name"
+    },
+    "button": {
+      "edit": "Edit",
+      "create": "Create"
+    }
+  }
+}
+</i18n>

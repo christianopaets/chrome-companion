@@ -5,4 +5,4 @@ export namespace ConversationsStateVersions {
     export type Latest = ConversationsStateV1;
 }
 
-export type {ConversationsStateV1 as ConversationsState};
+export type ConversationsState = ConversationsStateVersions.Latest;

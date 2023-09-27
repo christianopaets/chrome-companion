@@ -17,7 +17,7 @@ const scale = computed({
   get() {
     return props.modelValue;
   },
-  set(value) {
+  set(value: number) {
     emit('update:modelValue', value);
     emit('change', value);
   }
@@ -34,7 +34,7 @@ const disableAddScale = computed(() => {
 function onScaleChange(subtract: boolean = false): void {
   const index = options.indexOf(scale.value);
   const newScale = index + (subtract ? -1 : 1);
-  scale.value = options[newScale];
+  scale.value = options[newScale] || 14;
 }
 </script>
 

@@ -1,4 +1,4 @@
-import {useApiConfigStore} from '../stores/api-config.store';
+import {useApiConfigStore} from '@store/api-config.store';
 
 export class HttpService {
 
