@@ -4,6 +4,8 @@ import type {ConversationListItem} from '@store/interfaces/conversation-list-ite
 import Menu from 'primevue/menu';
 import type {MenuItem} from 'primevue/menuitem';
 import {ref} from 'vue';
+import MenuDynamicItem from '../base/MenuDynamicItem.vue';
+import {useI18n} from 'vue-i18n';
 
 interface Props {
   conversation: ConversationListItem;
@@ -12,26 +14,28 @@ interface Props {
 
 const {conversation} = defineProps<Props>();
 const emit = defineEmits(['edit', 'archive', 'delete']);
+const {t} = useI18n();
+const {d} = useI18n({useScope: 'global'});
 const menu = ref<Menu>();
 const items = ref<MenuItem[]>([{
-  label: 'Options',
+  label: () => t('menu.title'),
   items: [
     {
-      label: 'Edit',
+      label: () => t('menu.edit'),
       icon: PrimeIcons.PENCIL,
       command() {
         emit('edit');
       },
     },
     {
-      label: 'Archive',
+      label: () => t('menu.archive'),
       icon: PrimeIcons.UPLOAD,
       command() {
         emit('archive');
       },
     },
     {
-      label: 'Delete',
+      label: () => t('menu.delete'),
       icon: PrimeIcons.TRASH,
       command() {
         emit('delete');
@@ -46,7 +50,9 @@ const items = ref<MenuItem[]>([{
       class="flex align-items-center justify-content-between p-3 border-bottom-1 surface-border cursor-pointer hover:surface-hover w-full p-ripple">
     <p class="text-lg select-none">{{ conversation.name }}</p>
     <div class="flex gap-3 align-items-center">
-      <span class="text-base text-color-secondary font-medium select-none">{{ conversation.last }}</span>
+      <span class="text-base text-color-secondary font-medium select-none">{{
+          d(conversation.last, 'conversation')
+        }}</span>
       <Button v-if="!archived"
               :icon="PrimeIcons.ELLIPSIS_V"
               rounded
@@ -63,10 +69,25 @@ const items = ref<MenuItem[]>([{
     <Menu v-if="!archived"
           ref="menu"
           :model="items"
-          :popup="true"></Menu>
+          :popup="true">
+      <template v-slot:item="{item, label, props}">
+        <MenuDynamicItem :item="item"
+                         :parent-props="props"
+                         :label="label"></MenuDynamicItem>
+      </template>
+    </Menu>
   </li>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<i18n>
+{
+  "en": {
+    "menu": {
+      "title": "Options",
+      "edit": "Edit",
+      "archive": "Archive",
+      "delete": "Delete"
+    }
+  }
+}
+</i18n>

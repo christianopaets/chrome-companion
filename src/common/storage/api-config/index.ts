@@ -5,4 +5,4 @@ export namespace ApiConfigStateVersions {
     export type Latest = ApiConfigStateV1;
 }
 
-export type {ApiConfigStateV1 as ApiConfigState};
+export type ApiConfigState = ApiConfigStateVersions.Latest;

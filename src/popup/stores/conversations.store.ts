@@ -20,36 +20,10 @@ export const useConversationsStore = defineStore(conversationsTable.name, {
             return this.conversations.length + this.archived.length;
         },
         list(state): ConversationListItem[] {
-            const formatter: Intl.DateTimeFormatOptions = {
-                day: '2-digit',
-                month: 'short',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-            };
-            return state.conversations
-                .sort((a, b) => b.last - a.last)
-                .map(conversation => ({
-                    id: conversation.id,
-                    name: conversation.name,
-                    last: new Date(conversation.last).toLocaleDateString('en', formatter)
-                }));
+            return state.conversations.sort((a, b) => b.last - a.last);
         },
         archivedList(state): ConversationListItem[] {
-            const formatter: Intl.DateTimeFormatOptions = {
-                day: '2-digit',
-                month: 'short',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-            };
-            return state.archived
-                .sort((a, b) => b.last - a.last)
-                .map(conversation => ({
-                    id: conversation.id,
-                    name: conversation.name,
-                    last: new Date(conversation.last).toLocaleDateString('en', formatter)
-                }));
+            return state.archived.sort((a, b) => b.last - a.last);
         }
     },
     actions: {
@@ -90,17 +64,19 @@ export const useConversationsStore = defineStore(conversationsTable.name, {
                 return;
             }
             this.confirm.require({
-                message: 'Do you want to delete this conversation?',
-                header: 'Delete Confirmation',
+                header: this.i18n.t('confirm-dialog.conversations.delete.header'),
+                message: this.i18n.t('confirm-dialog.conversations.delete.message'),
+                rejectLabel: this.i18n.t('confirm-dialog.conversations.delete.reject'),
+                acceptLabel: this.i18n.t('confirm-dialog.conversations.delete.accept'),
                 icon: 'pi pi-info-circle',
                 acceptClass: 'p-button-danger',
                 accept: () => {
                     this.conversations.splice(conversationIndex, 1);
                     this.toast.add({
                         severity: 'success',
-                        summary: 'Confirmed',
-                        detail: 'Conversation deleted',
-                        life: 3000
+                        summary: this.i18n.t('toast.conversations.delete.summary'),
+                        detail: this.i18n.t('toast.conversations.delete.detail'),
+                        life: 2000
                     });
                 }
             });
@@ -112,17 +88,19 @@ export const useConversationsStore = defineStore(conversationsTable.name, {
                 return;
             }
             this.confirm.require({
-                message: 'Do you want to delete this conversation?',
-                header: 'Delete Confirmation',
+                header: this.i18n.t('confirm-dialog.conversations.delete-archived.header'),
+                message: this.i18n.t('confirm-dialog.conversations.delete-archived.message'),
+                rejectLabel: this.i18n.t('confirm-dialog.conversations.delete-archived.reject'),
+                acceptLabel: this.i18n.t('confirm-dialog.conversations.delete-archived.accept'),
                 icon: 'pi pi-info-circle',
                 acceptClass: 'p-button-danger',
                 accept: () => {
                     this.archived.splice(conversationIndex, 1);
                     this.toast.add({
                         severity: 'success',
-                        summary: 'Confirmed',
-                        detail: 'Conversation deleted',
-                        life: 3000
+                        summary: this.i18n.t('toast.conversations.delete-archived.summary'),
+                        detail: this.i18n.t('toast.conversations.delete-archived.detail'),
+                        life: 2000
                     });
                 }
             });
@@ -134,8 +112,10 @@ export const useConversationsStore = defineStore(conversationsTable.name, {
                 return;
             }
             this.confirm.require({
-                message: 'Do you want to archive this conversation?',
-                header: 'Archive Confirmation',
+                header: this.i18n.t('confirm-dialog.conversations.archive.header'),
+                message: this.i18n.t('confirm-dialog.conversations.archive.message'),
+                rejectLabel: this.i18n.t('confirm-dialog.conversations.archive.reject'),
+                acceptLabel: this.i18n.t('confirm-dialog.conversations.archive.accept'),
                 icon: 'pi pi-info-circle',
                 acceptClass: 'p-button-warning',
                 accept: () => {
@@ -143,9 +123,9 @@ export const useConversationsStore = defineStore(conversationsTable.name, {
                     this.archived.push(...toArchive);
                     this.toast.add({
                         severity: 'success',
-                        summary: 'Confirmed',
-                        detail: 'Conversation archived',
-                        life: 3000
+                        summary: this.i18n.t('toast.conversations.archive.summary'),
+                        detail: this.i18n.t('toast.conversations.archive.detail'),
+                        life: 2000
                     });
                 }
             });

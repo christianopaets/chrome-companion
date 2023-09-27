@@ -1,8 +1,10 @@
 import type {SettingsStateV1} from './settings-v1.state';
+import type {SettingsStateV2} from '@state/settings/settings-v2.state';
 
 export namespace SettingsStateVersions {
     export type V1 = SettingsStateV1;
-    export type Latest = SettingsStateV1;
+    export type V2 = SettingsStateV2;
+    export type Latest = SettingsStateV2;
 }
 
-export type {SettingsStateV1 as SettingsState};
+export type SettingsState = SettingsStateVersions.Latest;

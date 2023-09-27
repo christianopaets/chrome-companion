@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import {inject} from "vue";
+import {inject} from 'vue';
 import {ThemeService} from './services/theme.service';
 import PopupToolbar from './components/base/PopupToolbar.vue';
 import {useSettingsStore} from '@store/settings.store';
 import FadeThroughAnimation from './components/animations/FadeThroughAnimation.vue';
+import {setLocale} from './i18n';
 
 const themeService = inject<ThemeService>(ThemeService.INJECTOR)!;
 const settingsStore = useSettingsStore();
 themeService.init(settingsStore);
+setLocale(settingsStore.language);
 </script>
 
 <template>

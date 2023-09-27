@@ -3,19 +3,33 @@ import {useRoute, useRouter} from 'vue-router';
 import {onMounted, ref, watch} from 'vue';
 import {PrimeIcons} from 'primevue/api';
 import SlideTransition from '../../components/animations/SlideTransition.vue';
+import MenuDynamicItem from '../../components/base/MenuDynamicItem.vue';
+import type {MenuItem} from 'primevue/menuitem';
+import type {PassThrough} from 'primevue/ts-helpers';
+import type {TabMenuPassThroughOptions} from 'primevue/tabmenu';
+import {useI18n} from 'vue-i18n';
 
 const router = useRouter();
 const route = useRoute();
+const {t} = useI18n();
 
+const pt: PassThrough<TabMenuPassThroughOptions> = {
+  action: {
+    class: 'bg-transparent'
+  },
+  menu: {
+    class: 'bg-transparent'
+  }
+};
 const active = ref(0);
-const items = ref([
+const items = ref<MenuItem[]>([
   {
-    label: 'Theming',
+    label: () => t('menu.theming'),
     icon: PrimeIcons.PALETTE,
     route: '/settings/theming'
   },
   {
-    label: 'API',
+    label: () => t('menu.api'),
     icon: PrimeIcons.CLOUD,
     route: '/settings/api'
   }
@@ -46,21 +60,12 @@ function onTabChange(): void {
              :exact="true"
              :model="items"
              class="mt-1 px-3"
-             @tab-change="onTabChange()" :pt="{menu: {class: 'bg-transparent'}}">
+             :pt="pt"
+             @tab-change="onTabChange()">
       <template v-slot:item="{ label, item, props }">
-        <router-link v-if="item.route"
-                     v-slot="routerProps"
-                     :to="item.route"
-                     custom>
-          <a :href="routerProps.href"
-             v-bind="props.action"
-             class="bg-transparent"
-             @click="routerProps.navigate($event)"
-             @keydown.enter.space="routerProps.navigate($event)">
-            <span v-bind="props.icon"/>
-            <span v-bind="props.label">{{ label }}</span>
-          </a>
-        </router-link>
+        <MenuDynamicItem :item="item"
+                         :parent-props="props"
+                         :label="label"></MenuDynamicItem>
       </template>
     </TabMenu>
     <router-view v-slot="{Component, route}">
@@ -71,3 +76,14 @@ function onTabChange(): void {
     </router-view>
   </section>
 </template>
+
+<i18n>
+{
+  "en": {
+    "menu": {
+      "theming": "Theming",
+      "api": "API"
+    }
+  }
+}
+</i18n>

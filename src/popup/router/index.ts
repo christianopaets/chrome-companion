@@ -22,18 +22,12 @@ const routes: RouteRecordRaw[] = [
             {
                 path: 'theming',
                 component: () => import('../pages/settings/SettingsTheming.vue'),
-                meta: {
-                    id: 'settings',
-                    priority: 0
-                }
+                meta: {id: 'settings', priority: 0}
             },
             {
                 path: 'api',
                 component: () => import('../pages/settings/SettingsAPI.vue'),
-                meta: {
-                    id: 'settings',
-                    priority: 1
-                }
+                meta: {id: 'settings', priority: 1}
             }
         ]
     }
