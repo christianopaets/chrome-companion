@@ -1,5 +1,5 @@
 import type {SettingsStateV1} from './settings-v1.state';
-import type {SettingsStateV2} from '@state/settings/settings-v2.state';
+import type {SettingsStateV2} from '@storage/settings/settings-v2.state';
 
 export namespace SettingsStateVersions {
     export type V1 = SettingsStateV1;

@@ -1,5 +1,5 @@
 import type {Table} from '../interfaces/table.interface';
-import type {ConversationsStateVersions} from '@state/conversations';
+import type {ConversationsStateVersions} from '@storage/conversations';
 
 const table: Table = {
     name: 'conversations',

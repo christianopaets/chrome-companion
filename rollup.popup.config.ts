@@ -26,6 +26,13 @@ const config: RollupOptions = {
             if (id.includes('/primevue/')) {
                 return 'primevue';
             }
+            if (id.includes('highlight.js')) {
+                const matcher = id.match(/\/languages\/(.+).js$/);
+                if (!matcher || matcher.length < 2) {
+                    return 'highlight';
+                }
+                return `highlight/languages/${matcher[1]}`;
+            }
             if (id.includes('node_modules')) {
                 return 'vendor';
             }
@@ -54,7 +61,11 @@ const config: RollupOptions = {
                         /^(?!(|.*?:)cursor-move).+-move$/,
                         /^router-link(|-exact)-active$/,
                         /data-v-.*/,
-                        /pi-.*/
+                        /pi-.*/,
+                        /hljs*/,
+                        /pre/,
+                        /ol/,
+                        /:where/,
                     ],
                 }) as any // bad
             ] : []

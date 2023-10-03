@@ -1,9 +1,10 @@
 import {defineStore} from 'pinia';
-import type {SettingsState} from '@state/settings';
+import type {SettingsState} from '@storage/settings';
 import {setLocale} from '../i18n';
+import SettingsTable from '@storage/tables/settings.table';
 
-export const useSettingsStore = defineStore('settings', {
-    chrome: 'sync',
+export const useSettingsStore = defineStore(SettingsTable.name, {
+    chrome: SettingsTable.type,
     state: (): SettingsState => ({
         theme: 'soho-light',
         inputStyle: 'outlined',

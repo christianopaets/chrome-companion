@@ -27,11 +27,18 @@
     ],
     "baseUrl": "./",
     "paths": {
-      "@state/*": [
-        "src/common/storage/*"
+      "@utils/*": [
+        "src/common/utils/*"
       ],
       "@store/*": [
         "src/popup/stores/*"
+      ],
+      "@storage/*": [
+        "src/common/storage/*",
+        "src/background/storage/*"
+      ],
+      "@interfaces/*": [
+        "src/common/interfaces/*"
       ]
     }
   },

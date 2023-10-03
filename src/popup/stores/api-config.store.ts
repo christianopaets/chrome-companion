@@ -1,8 +1,9 @@
 import {defineStore} from 'pinia';
-import type {ApiConfigState} from '@state/api-config';
+import type {ApiConfigState} from '@storage/api-config';
+import ApiConfigTable from '@storage/tables/api-config.table';
 
-export const useApiConfigStore = defineStore('api-config', {
-    chrome: 'sync',
+export const useApiConfigStore = defineStore(ApiConfigTable.name, {
+    chrome: ApiConfigTable.type,
     state: (): ApiConfigState => ({
         key: ''
     }),

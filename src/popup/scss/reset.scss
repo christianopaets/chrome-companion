@@ -99,3 +99,7 @@ meter {
 :where(dialog:modal) {
   all: revert;
 }
+
+pre {
+  white-space: pre-wrap;
+}

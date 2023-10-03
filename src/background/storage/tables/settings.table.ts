@@ -1,5 +1,5 @@
 import type {Table} from '../interfaces/table.interface';
-import type {SettingsStateVersions} from '@state/settings';
+import type {SettingsStateVersions} from '@storage/settings';
 
 const table: Table = {
     name: 'settings',

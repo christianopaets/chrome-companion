@@ -8,10 +8,12 @@ import ListAnimation from '../components/animations/ListAnimation.vue';
 import ConversationsWelcome from '../components/conversations/ConversationsWelcome.vue';
 import FadeThroughAnimation from '../components/animations/FadeThroughAnimation.vue';
 import {useI18n} from 'vue-i18n';
+import {useRouter} from 'vue-router';
 
 const dialog = ref<InstanceType<typeof CreateConversation> | null>(null);
 const conversationsStore = useConversationsStore();
 const {t} = useI18n();
+const router = useRouter();
 </script>
 
 <template>
@@ -36,7 +38,7 @@ const {t} = useI18n();
                               @archive="conversationsStore.archive(item.id)"
                               @edit="dialog?.edit(item)"
                               @delete="conversationsStore.delete(item.id)"
-                              @click="console.log(`/conversations/${item.id}`)">
+                              @click="router.push(`/conversations/${item.id}`)">
         </ConversationListItem>
         <li v-if="conversationsStore.archived.length"
             class="block p-3 text-2xl border-bottom-1 surface-border w-full mt-3"
@@ -47,7 +49,7 @@ const {t} = useI18n();
                               :conversation="item"
                               :archived="true"
                               @delete="conversationsStore.deleteArchived(item.id)"
-                              @click="console.log(`/conversations/${item.id}?archive`)">
+                              @click="router.push(`/conversations/${item.id}?archive`)">
         </ConversationListItem>
       </ListAnimation>
       <ConversationsWelcome v-else

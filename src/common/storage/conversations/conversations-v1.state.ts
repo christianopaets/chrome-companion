@@ -1,7 +1,7 @@
-import type {Conversation} from '../../interfaces/conversation.interface';
+import type {ConversationDetailsVersions} from '@interfaces/conversation/conversation-details.interface';
 
 export interface ConversationsStateV1 {
-    conversations: Conversation[];
-    archived: Conversation[];
+    conversations: ConversationDetailsVersions.V1[];
+    archived: ConversationDetailsVersions.V1[];
     limit: number;
 }

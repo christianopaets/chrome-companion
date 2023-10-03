@@ -1,6 +1,6 @@
 import type {PrimeVueTheme} from '../../common/types/prime-vue-theme.type';
-import {capitalize} from '../../common/utils/capitalize';
-import type {SettingsStateV1} from '@state/settings/settings-v1.state';
+import {capitalize} from '@utils/capitalize';
+import type {SettingsStateV1} from '@storage/settings/settings-v1.state';
 
 export class ThemeService {
 

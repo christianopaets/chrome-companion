@@ -13,9 +13,10 @@ setLocale(settingsStore.language);
 </script>
 
 <template>
-  <section class="flex flex-column h-full">
-    <PopupToolbar class="sticky top-0 z-1"></PopupToolbar>
-    <section class="main h-full">
+  <section class="flex flex-column h-full overflow-hidden">
+    <PopupToolbar class="fixed w-full top-0 z-1"></PopupToolbar>
+    <section id="global-scroll"
+             class="main h-full overflow-custom">
       <router-view v-slot="{Component}">
         <FadeThroughAnimation>
           <component :is="Component"></component>
@@ -28,5 +29,7 @@ setLocale(settingsStore.language);
 </template>
 
 <style scoped lang="scss">
-
+.main {
+  padding-top: 58px;
+}
 </style>

@@ -1,6 +1,12 @@
 import type {RouteRecordRaw} from 'vue-router';
 import {createMemoryHistory, createRouter} from 'vue-router';
 import {useApiConfigStore} from '@store/api-config.store';
+import {useConversationsStore} from '@store/conversations.store';
+
+export enum TRoutes {
+    Conversations = 'conversations',
+    Conversation = 'conversation'
+}
 
 const routes: RouteRecordRaw[] = [
     {
@@ -8,8 +14,22 @@ const routes: RouteRecordRaw[] = [
         redirect: '/conversations'
     },
     {
+        name: TRoutes.Conversations,
         path: '/conversations',
         component: () => import('../pages/Conversations.vue')
+    },
+    {
+        name: TRoutes.Conversation,
+        path: '/conversations/:id',
+        props: true,
+        component: () => import('../pages/Conversation.vue'),
+        beforeEnter: to => {
+            const {conversations, archived} = useConversationsStore();
+            if ('archive' in to.query) {
+                return archived.some(item => item.id === to.params?.id);
+            }
+            return conversations.some(item => item.id === to.params?.id);
+        }
     },
     {
         path: '/welcome',

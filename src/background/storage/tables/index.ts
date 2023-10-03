@@ -1,9 +1,12 @@
-import settingsTable from './settings.table';
-import apiConfigTable from './api-config.table';
-import conversationsTable from './conversations.table';
+import SettingsTable from './settings.table';
+import ApiConfigTable from './api-config.table';
+import ConversationsTable from './conversations.table';
+import ConversationTable from '@storage/tables/conversation.table';
 
 export default [
-    settingsTable,
-    apiConfigTable,
-    conversationsTable
+    SettingsTable,
+    ApiConfigTable,
+    ConversationsTable,
+    ConversationTable
+
 ];
