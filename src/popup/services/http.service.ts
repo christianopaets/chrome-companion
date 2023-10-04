@@ -12,7 +12,18 @@ export class HttpService {
 
     static readonly INJECTOR = Symbol('HttpClient');
 
-    constructor() {
+    private static _instance: HttpService | undefined;
+
+    static get instance(): HttpService {
+        if (!this._instance) {
+            this._instance = new HttpService();
+        }
+        return this._instance;
+    }
+
+    private readonly _errorHandlers: Map<Symbol, (e: Error) => void> = new Map([]);
+
+    private constructor() {
     }
 
     async get(url: string, options: FetchRequestInit = {}): Promise<Response> {
@@ -66,11 +77,25 @@ export class HttpService {
                     }
                 }
             },
-            onerror(err: Error) {
+            onerror: (err: Error) => {
                 onerror(err);
+                this._errorHandlers.forEach(callback => callback(err));
                 throw err;
             },
         });
+    }
+
+    addErrorListener(callback: (e: Error) => void): Symbol {
+        const id = Symbol();
+        this._errorHandlers.set(id, callback);
+        return id;
+    }
+
+    removeErrorListener(id: Symbol): void {
+        if (!this._errorHandlers.has(id)) {
+            return;
+        }
+        this._errorHandlers.delete(id);
     }
 
     private _getChatHeaders(): Record<string, string> {

@@ -45,7 +45,7 @@ export function utilsPlugin({store, options}: PiniaPluginContext): void {
         store.i18n = markRaw(useI18n({useScope: 'global'}));
     }
     if (options.inject.includes('http')) {
-        store.http = new HttpService();
+        store.http = HttpService.instance;
     }
     if (options.inject.includes('toast')) {
         store.toast = markRaw(useToast());

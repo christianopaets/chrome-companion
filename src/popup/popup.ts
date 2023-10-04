@@ -16,7 +16,7 @@ const app = createApp(Popup)
     .use(i18n)
     .use(PrimevueComponents)
     .provide(ThemeService.INJECTOR, new ThemeService())
-    .provide(HttpService.INJECTOR, new HttpService())
+    .provide(HttpService.INJECTOR, HttpService.instance)
     .provide(ScrollService.INJECTOR, new ScrollService());
 
 ChromeStoragePreload.preload()
