@@ -1,4 +1,4 @@
-import type {SettingsState} from '@state/settings';
+import type {SettingsState} from '@storage/settings';
 
 const preload = document.getElementById('preload') as HTMLDivElement;
 let bgColor = 'var(--surface-ground)';
@@ -12,12 +12,14 @@ if (settingsStateString) {
     }
 }
 preload.style.backgroundColor = bgColor;
-document.addEventListener('app-mounted', () => {
-    setTimeout(() => {
-        preload.classList.add('transition-all', 'transition-duration-150', 'animation-ease-in-out');
-        preload.style.opacity = '0';
-        setTimeout(() => {
-            preload.remove();
-        }, 150);
-    }, 250);
+document.addEventListener('app-mounted', async () => {
+    await wait(250);
+    preload.classList.add('transition-all', 'transition-duration-150', 'animation-ease-in-out');
+    preload.style.opacity = '0';
+    await wait(150);
+    preload.remove();
 });
+
+function wait(time: number): Promise<void> {
+    return new Promise(resolve => setTimeout(() => resolve(), time));
+}

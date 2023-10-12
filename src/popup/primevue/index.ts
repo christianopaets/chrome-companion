@@ -14,10 +14,14 @@ import InputText from 'primevue/inputtext';
 import Toast from 'primevue/toast';
 import ConfirmDialog from 'primevue/confirmdialog';
 import Message from 'primevue/message';
+import InlineMessage from 'primevue/inlinemessage';
 import Card from 'primevue/card';
 import Fieldset from 'primevue/fieldset';
 import Dialog from 'primevue/dialog';
+import Textarea from 'primevue/textarea';
 import PrimeVue from 'primevue/config';
+import Avatar from 'primevue/avatar';
+import Skeleton from 'primevue/skeleton';
 import ConfirmationService from 'primevue/confirmationservice';
 import ToastService from 'primevue/toastservice';
 
@@ -40,9 +44,13 @@ const primevue: Plugin = {
             .component('Toast', Toast)
             .component('ConfirmDialog', ConfirmDialog)
             .component('Message', Message)
+            .component('InlineMessage', InlineMessage)
             .component('Card', Card)
             .component('Fieldset', Fieldset)
-            .component('Dialog', Dialog);
+            .component('Dialog', Dialog)
+            .component('Avatar', Avatar)
+            .component('Skeleton', Skeleton)
+            .component('Textarea', Textarea);
     }
 };
 

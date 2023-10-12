@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from 'vue';
+import {inject, onMounted, ref} from 'vue';
 import type {MenuItem} from 'primevue/menuitem';
 import Menu from 'primevue/menu';
 import {PrimeIcons} from 'primevue/api';
@@ -9,6 +9,7 @@ import MenuDynamicItem from './MenuDynamicItem.vue';
 import {ACCEPTED_LANGUAGES} from '../../i18n';
 import {useSettingsStore} from '@store/settings.store';
 import {useApiConfigStore} from '@store/api-config.store';
+import {ScrollService} from '../../services/scroll.service';
 
 const {t} = useI18n();
 const router = useRouter();
@@ -16,6 +17,8 @@ const settingsMenu = ref<Menu>();
 const languageMenu = ref<Menu>();
 const settingsStore = useSettingsStore();
 const apiConfigStore = useApiConfigStore();
+const scrollService = inject<ScrollService>(ScrollService.INJECTOR)!;
+const scrolled = ref(false);
 
 const settings = ref<MenuItem[]>([
   {
@@ -44,12 +47,21 @@ const languages = ref<MenuItem[]>([
     }))
   }
 ]);
+
+onMounted(() => {
+  scrollService.onGlobalScroll(event => {
+    if (event.target && event.target instanceof HTMLElement) {
+      scrolled.value = event.target.scrollTop > 0;
+    }
+  });
+});
 </script>
 
 <template>
-  <Toolbar class="border-noround p-3">
+  <Toolbar class="border-noround p-3 transition-all transition-duration-100 transition-ease-in-out"
+           :class="{'shadow-1 surface-0': scrolled}">
     <template v-slot:start>
-      <h1 class="text-2xl"
+      <h1 class="text-2xl cursor-pointer select-none"
           @click="router.push('/')">{{ t('title') }}</h1>
     </template>
     <template v-slot:end>

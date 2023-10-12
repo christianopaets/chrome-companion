@@ -1,5 +1,7 @@
 import type {Plugin} from 'rollup';
 import type {PrimeVueTheme} from '../src/common/types/prime-vue-theme.type';
+import postcss from 'postcss';
+import cssnano from 'cssnano';
 
 interface PluginOptions {
     themes: PrimeVueTheme[];
@@ -19,6 +21,14 @@ export default ({themes, output}: PluginOptions): Plugin => ({
                 mkdirSync(fulldir, {recursive: true});
             }
             cpSync(`./node_modules/primevue/resources/themes/${theme}`, fulldir, {recursive: true});
+            const cssFile = Bun.file(`${fulldir}/theme.css`);
+            if (!await cssFile.exists()) {
+                continue;
+            }
+            const cssCode = await cssFile.text();
+            const parsedCss = await postcss([cssnano({preset: 'default'})])
+                .process(cssCode, {from: `${fulldir}/theme.css`, to: `${fulldir}/theme.css`});
+            await Bun.write(cssFile, parsedCss.css);
         }
     }
 });

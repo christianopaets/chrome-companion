@@ -10,12 +10,14 @@ import {ChromeStoragePreload} from '../common/pinia/chrome-storage.preload';
 import {HttpService} from './services/http.service';
 import {i18n} from './i18n';
 import {PrimevueComponents} from './primevue';
+import {ScrollService} from './services/scroll.service';
 
 const app = createApp(Popup)
     .use(i18n)
     .use(PrimevueComponents)
     .provide(ThemeService.INJECTOR, new ThemeService())
-    .provide(HttpService.INJECTOR, new HttpService());
+    .provide(HttpService.INJECTOR, HttpService.instance)
+    .provide(ScrollService.INJECTOR, new ScrollService());
 
 ChromeStoragePreload.preload()
     .then(async () => {

@@ -1,4 +1,5 @@
 @forward "reset";
+@forward "highlight.theme";
 
 body {
   font-family: var(--font-family);
@@ -6,10 +7,17 @@ body {
   margin: 0;
   width: 500px;
   height: 600px;
-  overflow: overlay;
+  overflow: hidden;
 }
 
-body {
+@function overlay() {
+  @return overlay;
+}
+
+body, .overflow-custom {
+  overflow-y: overlay();
+  overflow-x: hidden;
+
   &::-webkit-scrollbar {
     width: 0.27rem;
     background: var(--surface-100);

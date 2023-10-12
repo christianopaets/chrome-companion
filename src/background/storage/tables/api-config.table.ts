@@ -1,5 +1,5 @@
 import type {Table} from '../interfaces/table.interface';
-import type {ApiConfigStateVersions} from '@state/api-config';
+import type {ApiConfigStateVersions} from '@storage/api-config';
 
 const table: Table = {
     name: 'api-config',
